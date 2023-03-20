@@ -9,16 +9,6 @@ function initApp() {
   console.log("Start");
 
   document.querySelector("#btn-add-item").addEventListener("click", addToDo);
-  list.addEventListener("click", handleListClick);
-}
-
-function handleListClick(event) {
-  const target = event.target;
-  if (target.classList.contains("delete-button")) {
-    removeToDo.call(target);
-  } else if (target.classList.contains("edit-button")) {
-    editToDo.call(target);
-  }
 }
 
 function addToDo() {
@@ -29,15 +19,22 @@ function addToDo() {
     const listItem = /*html*/ `
         <li>
             <span>${newToDo.value}</span>
-            <button class="delete-button">Delete</button>
-            <button class="edit-button">Edit</button>
+            <button class="delete-btn">Delete</button>
+            <button class="edit-btn">Edit</button>
         </li>
     `;
     list.insertAdjacentHTML("beforeend", listItem);
-    newToDo.value = "";
+
+    list
+      .querySelector("li:last-child .delete-btn")
+      .addEventListener("click", removeToDo);
+    list
+      .querySelector("li:last-child .edit-btn")
+      .addEventListener("click", editToDo);
   } else {
     newToDo.placeholder = "Must not be empty";
   }
+  newToDo.value = "";
 }
 
 // function addToDo() {
